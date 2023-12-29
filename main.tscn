@@ -1,8 +1,45 @@
-[gd_scene load_steps=2 format=3 uid="uid://bcaq6x3p12q4v"]
+[gd_scene load_steps=7 format=3 uid="uid://bcaq6x3p12q4v"]
 
+[ext_resource type="Script" path="res://main.cs" id="1_ohm2n"]
+[ext_resource type="Shader" path="res://Mandelbrot.gdshader" id="2_03hpc"]
+[ext_resource type="Texture2D" uid="uid://djh1g624r6s5t" path="res://bla.png" id="2_4i4ed"]
 [ext_resource type="PackedScene" uid="uid://w2b3spncbmsc" path="res://Mandelbrot.tscn" id="2_cdbxw"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iwkuy"]
+shader = ExtResource("2_03hpc")
+shader_parameter/scale = 1.0
+shader_parameter/lowerLimReal = -2.0
+shader_parameter/upperLimReal = 1.0
+shader_parameter/lowerLimImag = -1.0
+shader_parameter/upperLimImag = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_33wfx"]
+shader = ExtResource("2_03hpc")
+shader_parameter/scale = 1.0
+shader_parameter/lowerLimReal = -2.0
+shader_parameter/upperLimReal = 1.0
+shader_parameter/lowerLimImag = -1.0
+shader_parameter/upperLimImag = 1.0
+
 [node name="main" type="Node2D"]
+script = ExtResource("1_ohm2n")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_iwkuy")
+offset_left = -16.0
+offset_top = 51.0
+offset_right = 822.0
+offset_bottom = 608.0
+texture = ExtResource("2_4i4ed")
+expand_mode = 1
 
 [node name="CoordinateSystem" parent="." instance=ExtResource("2_cdbxw")]
+visible = false
 position = Vector2(-1, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_33wfx")
+position = Vector2(449.5, 313.5)
+scale = Vector2(1, 1.229)
+texture = ExtResource("2_4i4ed")
