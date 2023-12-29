@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3 uid="uid://w2b3spncbmsc"]
+
+[ext_resource type="Script" path="res://Game.cs" id="1_7ugv6"]
+
+[node name="CoordinateSystem" type="Node2D"]
+script = ExtResource("1_7ugv6")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+show_behind_parent = true
+offset_right = 1348.0
+offset_bottom = 631.0
+stretch_mode = 2
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 262.0
+offset_bottom = 106.0
+
+[node name="GridContainer" type="GridContainer" parent="Panel"]
+layout_mode = 0
+offset_right = 183.0
+offset_bottom = 116.0
+columns = 3
+
+[node name="resolutionLabel" type="Label" parent="Panel/GridContainer"]
+layout_mode = 2
+tooltip_text = "Resolution: Y Value is given by user, X value is determined. "
+mouse_filter = 1
+text = "Res"
+
+[node name="resolutionLabelX" type="Label" parent="Panel/GridContainer"]
+layout_mode = 2
+tooltip_text = "Resolution: Y Value is given by user, X value is determined. "
+mouse_filter = 1
+text = "X"
+
+[node name="yResolutionEdit" type="LineEdit" parent="Panel/GridContainer"]
+layout_mode = 2
+tooltip_text = "Resolution: Y Value is given by user, X value is determined. "
+text = "600"
+
+[node name="ResetButton" type="Button" parent="Panel/GridContainer"]
+layout_mode = 2
+text = "Reset"
+
+[node name="Panel" type="Panel" parent="Panel/GridContainer"]
+layout_mode = 2
+
+[node name="ApplyButton" type="Button" parent="Panel/GridContainer"]
+layout_mode = 2
+text = "Apply"
+
+[node name="ProgressLabel" type="Label" parent="Panel/GridContainer"]
+layout_mode = 2
+text = "Progress"
+
+[node name="ActualProgressLabel" type="Label" parent="Panel/GridContainer"]
+layout_mode = 2
+
+[node name="MaxProgressLabel" type="Label" parent="Panel/GridContainer"]
+layout_mode = 2
+
+[connection signal="pressed" from="Panel/GridContainer/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="Panel/GridContainer/ApplyButton" to="." method="_on_apply_button_pressed"]

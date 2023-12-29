@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcaq6x3p12q4v"]
+
+[ext_resource type="PackedScene" uid="uid://w2b3spncbmsc" path="res://Mandelbrot.tscn" id="2_cdbxw"]
+
+[node name="main" type="Node2D"]
+
+[node name="CoordinateSystem" parent="." instance=ExtResource("2_cdbxw")]
+position = Vector2(-1, 0)
