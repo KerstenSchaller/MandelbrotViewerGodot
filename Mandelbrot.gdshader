@@ -42,7 +42,7 @@ float complexLength(vec2 c)
 float isMandelbrot(vec2 c)
 {
 	float maxIterations = 200.0;
-	vec2 targetComplexNumber; 
+	vec2 targetComplexNumber = vec2(0,0); 
 	if(complexLength(c) > 2.0)// to large already
 	{
 		return 0.0;
@@ -79,7 +79,15 @@ void fragment()
 	else
 	{
 		// is not inside isMandelbrot
-		COLOR = vec4(0,0,result/50.0,1.0);
+		if(result > 100.0)
+		{
+			COLOR = vec4(0,0,1.0,1.0);
+		}
+		else
+		{
+			COLOR = vec4(0,0,result/100.0,1.0);
+		}
+		
 	}
 	
 
