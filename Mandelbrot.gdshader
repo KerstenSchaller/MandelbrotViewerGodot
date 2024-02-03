@@ -38,14 +38,24 @@ float complexLength(vec2 c)
 	return sqrt((c.x*c.x) + (c.y*c.y));
 }
 
+struct MandelbrotInfo
+{
+	bool isInMandelbrot;
+	float mandelbrotValue;
+	float complexLength;
+};
 
-float isMandelbrot(vec2 c)
+MandelbrotInfo isMandelbrot(vec2 c)
 {
 	float maxIterations = 200.0;
 	vec2 targetComplexNumber = vec2(0,0); 
+	MandelbrotInfo mandelbrotInfo; 
 	if(complexLength(c) > 2.0)// to large already
 	{
-		return 0.0;
+		mandelbrotInfo.isInMandelbrot = false;
+		mandelbrotInfo.mandelbrotValue = 0.0;
+		mandelbrotInfo.complexLength = complexLength(c);
+		return mandelbrotInfo;
 	}
 	for(float i=0.0; i < maxIterations;i=i+1.0)
 	{
@@ -53,24 +63,41 @@ float isMandelbrot(vec2 c)
 		targetComplexNumber = squareComplex(targetComplexNumber);
 		if(complexLength(targetComplexNumber) > 2.0)
 		{
-			return i;
+			mandelbrotInfo.isInMandelbrot = false;
+			mandelbrotInfo.mandelbrotValue = i;
+			mandelbrotInfo.complexLength = complexLength(c);
+			return mandelbrotInfo;
 		}
 	}
-	return -1.0;
 
+	mandelbrotInfo.isInMandelbrot = true;
+	mandelbrotInfo.mandelbrotValue = -1.0;
+	mandelbrotInfo.complexLength = complexLength(c);
+	return mandelbrotInfo;
+
+}
+
+vec4 mapMandelbrotValueToColorHighContrast(float value)
+{
+	vec4 color;
+	color[2] = value;
+	color[1] = 1.0-value;
+	color[0] = 0.5; 
+	color[3] = 1.0;
+	return color;
 }
 
 void fragment() 
 {
-	//sample texture
+	// sample texture
 	// UV is a vec2, values between 0 and 1, it represents the current pixel
-	//vec4 pixelcolor = texture(TEXTURE, UV)
+	// vec4 pixelcolor = texture(TEXTURE, UV)
 	// acces r g b channels like: pixelcolor.r 
 	// COLOR =, COLOR.r = ...are used to set the newPixelColor
 
 	vec2 complexNumber = mapUVToComplex(UV);
-	float result = isMandelbrot(complexNumber);
-	if(result == -1.0)
+	MandelbrotInfo result = isMandelbrot(complexNumber);
+	if(result.mandelbrotValue == -1.0)
 	{
 		// is inside isMandelbrot
 		COLOR = vec4(0,0,0,1);
@@ -79,14 +106,12 @@ void fragment()
 	else
 	{
 		// is not inside isMandelbrot
-		if(result > 100.0)
-		{
-			COLOR = vec4(0,0,1.0,1.0);
-		}
-		else
-		{
-			COLOR = vec4(0,0,result/100.0,1.0);
-		}
+		COLOR = vec4(0,0,result.mandelbrotValue/100.0,1.0);
+		COLOR = mapMandelbrotValueToColorHighContrast(result.mandelbrotValue/200.0);
+		COLOR.rgb = COLOR.rbb;
+		//COLOR = vec4(0,0,1.0,1.0);
+		//COLOR = vec4(0,0,(result.complexLength),1.0);
+
 		
 	}
 	
